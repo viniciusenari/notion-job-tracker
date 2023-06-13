@@ -2,7 +2,6 @@ import os
 import requests
 from typing import List, Optional
 from dotenv import load_dotenv
-import datetime
 
 load_dotenv()
 
