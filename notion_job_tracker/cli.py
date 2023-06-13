@@ -8,7 +8,7 @@ def main():
     location = input("Location (separated by commas if multiple): ").split(",")
     job_posting_url = input("Job posting URL (optional): ")
 
-    add_job_application(
+    response = add_job_application(
         company_name=company_name,
         stage="Applied",
         job_title=[title.strip() for title in job_title],
@@ -17,6 +17,11 @@ def main():
         last_update=None,
         job_posting_url=job_posting_url.strip() if job_posting_url else None,
     )
+
+    if response.status_code == 200:
+        print("Job application successfully added!")
+    else:
+        print("Error adding job application. Please try again.")
 
 
 if __name__ == "__main__":

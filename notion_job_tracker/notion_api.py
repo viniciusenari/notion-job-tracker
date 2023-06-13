@@ -22,45 +22,22 @@ def add_job_application(
         "Notion-Version": "2021-08-16",
     }
 
-    # data = {
-    #     "parent": {"database_id": os.getenv("NOTION_DATABASE_ID", "")},
-    #     "properties": {
-    #         "Company": {
-    #         "title": [
-    #             {
-    #                 "text": {
-    #                     "content": "Company Name"
-    #                 }
-    #             }
-    #         ]
-    #     },
-    #         "Stage": {"select": {"name": stage}},
-    #         "Job title": {
-    #             "multi_select": [{"name": job_title[i]} for i in range(len(job_title))]
-    #         },
-    #         "Location": {
-    #             "multi_select": [{"name": location[i]} for i in range(len(location))]
-    #         },
-    #         "Application Date": {"date": {"start": application_date}},
-    #         "Last Update": {"date": {"start": last_update}} if last_update else None,
-    #         "Job Posting URL": {"url": job_posting_url},
-    #     },
-    # }
-
     data = {
         "parent": {"database_id": os.getenv("NOTION_DATABASE_ID", "")},
         "properties": {
             "Company": {"title": [{"text": {"content": company_name}}]},
-            "Stage": {"select": {"name": "Applied"}},
-            "Job title": {
-                "multi_select": [{"name": job_title[i]} for i in range(len(job_title))                ]
+            "Stage": {"select": {"name": stage}},
+            "Position": {
+                "multi_select": [{"name": job_title[i]} for i in range(len(job_title))]
             },
             "Location": {
                 "multi_select": [{"name": location[i]} for i in range(len(location))]
             },
             "Application Date": {"date": {"start": application_date}},
-            "Last Update": {"date": {"start": last_update}} if last_update else {"date": {"start": application_date}},
-            "Job Posting URL": {"url": job_posting_url},
+            "Last Update": {"date": {"start": last_update}}
+            if last_update
+            else {"date": {"start": application_date}},
+            "Posting URL": {"url": job_posting_url},
         },
     }
 
@@ -68,4 +45,4 @@ def add_job_application(
         "https://api.notion.com/v1/pages", headers=headers, json=data
     )
 
-    print(response.text)
+    return response
