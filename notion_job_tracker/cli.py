@@ -1,8 +1,8 @@
-from notion_api import add_job_application
+from .notion_api import add_job_application
 import datetime
 
 
-def main():
+def cli():
     company_name = input("Company name: ")
     job_title = input("Job title (separated by commas if multiple): ").split(",")
     location = input("Location (separated by commas if multiple): ").split(",")
@@ -22,7 +22,8 @@ def main():
         print("Job application successfully added!")
     else:
         print("Error adding job application. Please try again.")
+        print(response.json())
 
 
 if __name__ == "__main__":
-    main()
+    cli()
