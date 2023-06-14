@@ -51,7 +51,7 @@ To obtain the Notion database ID, go to the database you created and copy the sh
 1. Open your terminal and navigate to the project directory.
 2. Run the following command to start the program:
 ```
-python main.py
+python3 main.py
 ```
 3. The program will prompt you to enter the job details such as company, job title, location, and posting url.
 4. Once you have entered all the required information, the program will add the job details to your Notion database.
