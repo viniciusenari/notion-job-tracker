@@ -1,4 +1,4 @@
-# Python Project Readme
+# Notion Job Tracker
 
 ## Description
 This project allows you to easily add job information to a Notion database from the terminal. It uses the Notion API to interact with your Notion workspace and provides a convenient command-line interface for adding job details.
