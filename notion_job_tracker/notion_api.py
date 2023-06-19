@@ -2,6 +2,7 @@ import os
 import requests
 from typing import List, Optional
 from dotenv import load_dotenv
+from tabulate import tabulate
 
 load_dotenv()
 
@@ -45,3 +46,49 @@ def add_job_application(
     )
 
     return response
+
+
+def get_job_applications() -> None:
+    payload = {"page_size": 100}
+    headers = {
+        "Authorization": "Bearer " + os.getenv("NOTION_API_KEY", ""),
+        "Notion-Version": "2022-06-28",
+        "content-type": "application/json",
+    }
+
+    response = requests.post(
+        f'https://api.notion.com/v1/databases/{os.getenv("NOTION_DATABASE_ID", "")}/query',
+        json=payload,
+        headers=headers,
+    )
+    results = response.json()["results"]
+
+    table_data = []
+
+    for i in range(len(results)):
+        row_properties = results[i]["properties"]
+        row = [
+            row_properties["Company"]["title"][0]["text"]["content"],
+            row_properties["Stage"]["select"]["name"],
+            [pos["name"] for pos in row_properties["Position"]["multi_select"]],
+            [
+                location["name"]
+                for location in row_properties["Location"]["multi_select"]
+            ],
+            row_properties["Application Date"]["date"]["start"],
+            row_properties["Last Update"]["date"]["start"]
+            if row_properties["Last Update"]["date"]
+            else "N/A",
+        ]
+        table_data.append(row)
+
+    headers = [
+        "Company",
+        "Stage",
+        "Position",
+        "Location",
+        "Application Date",
+        "Last Update",
+    ]
+
+    return tabulate(table_data, headers=headers, tablefmt="pretty")
